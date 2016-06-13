@@ -1,0 +1,6 @@
+.idea
+.ipynb_checkpoints/
+*.ipynb
+db.sqlite3
+*.pyc
+secrets.json
