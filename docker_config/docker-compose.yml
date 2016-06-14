@@ -1,0 +1,39 @@
+version: '2'
+services:
+
+    postgre:
+        image: postgres:latest
+        container_name: Postgre
+        ports:
+            - "5432:5432"
+        network_mode: "host"
+        volumes:
+            - ../../docker/postgresql:/var/lib/postgresql/data
+        environment:
+            POSTGRES_PASSWORD: $MAIN_DB_PASSWORD
+            POSTGRES_USER: $MAIN_DB_USERNAME
+            POSTGRES_DB: $MAIN_DB_NAME
+#            POSTGRES_INITDB_ARGS:
+
+    python:
+        build:
+            context: ../
+            dockerfile: ./docker_config/Dockerfile-Django
+        command: python manage.py runserver 0.0.0.0:8000
+        container_name: Django
+        ports:
+            - "8000:8000"
+        network_mode: "host"
+        volumes:
+            - ../:/dj_app
+        environment:
+            DJANGO_SETTINGS_MODULE: $DJANGO_SETTINGS_MODULE
+            MAIN_DB_NAME: $MAIN_DB_NAME
+            MAIN_DB_USERNAME: $MAIN_DB_USERNAME
+            MAIN_DB_PASSWORD: $MAIN_DB_PASSWORD
+            MAIN_DB_HOST: $MAIN_DB_HOST
+            MAIN_DB_PORT: $MAIN_DB_PORT
+            DJ_DEBUG: 1
+        depends_on:
+            - postgre
+#            - redis

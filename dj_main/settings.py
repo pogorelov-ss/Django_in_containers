@@ -11,19 +11,24 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DJ_PROJECT_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(DJ_PROJECT_DIR)
+# USER_HOME_DIR = os.path.dirname(BASE_DIR)
+DATA_DIR = os.environ.get('INSTANCE_DATA_DIR', BASE_DIR)
 
+import sys
+sys.path.append(os.path.join(BASE_DIR, 'libs'))
+import secrets
+SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'z(ux_robg^q!ts2$%bk@*z3xh9wh8cz9xgznw2%+v8x0kg#9lp'
-
+SECRET_KEY = SECRETS['secret_key']
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJ_DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -50,7 +55,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Django_in_containers.urls'
+ROOT_URLCONF = 'dj_main.urls'
 
 TEMPLATES = [
     {
@@ -76,8 +81,12 @@ WSGI_APPLICATION = 'dj_main.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('MAIN_DB_NAME'),
+        'USER': os.environ.get('MAIN_DB_USERNAME'),
+        'PASSWORD': os.environ.get('MAIN_DB_PASSWORD'),
+        'HOST': os.environ.get('MAIN_DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('MAIN_DB_PORT', '5432')
     }
 }
 
