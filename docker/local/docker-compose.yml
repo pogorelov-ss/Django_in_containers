@@ -8,7 +8,7 @@ services:
             - "5432:5432"
         network_mode: "host"
         volumes:
-            - ../../docker/postgresql:/var/lib/postgresql/data
+            - ../../../docker/postgresql:/var/lib/postgresql/data
         environment:
             POSTGRES_PASSWORD: $MAIN_DB_PASSWORD
             POSTGRES_USER: $MAIN_DB_USERNAME
@@ -17,15 +17,17 @@ services:
 
     python:
         build:
-            context: ../
-            dockerfile: ./docker_config/Dockerfile-Django
-        command: python manage.py runserver 0.0.0.0:8000
-        container_name: Django
+            context: ../../
+            dockerfile: ./docker/local/Dockerfile-Django-uwsgi
+#        command: uwsgi --socket 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+        command: uwsgi --http 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+        container_name: DjangoUWSGIwStat
         ports:
             - "8000:8000"
+            - "9191:9191"
         network_mode: "host"
         volumes:
-            - ../:/dj_app
+            - ../../:/dj_app
         environment:
             DJANGO_SETTINGS_MODULE: $DJANGO_SETTINGS_MODULE
             MAIN_DB_NAME: $MAIN_DB_NAME
