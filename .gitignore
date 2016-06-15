@@ -3,4 +3,4 @@
 *.ipynb
 db.sqlite3
 *.pyc
-secrets.json
+dj_app/secrets.json
