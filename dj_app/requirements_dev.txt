@@ -1,2 +1,2 @@
 django-extensions
-jupyter
+awsebcli

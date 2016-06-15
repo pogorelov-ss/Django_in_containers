@@ -18,8 +18,8 @@ services:
 
     python:
         build:
-            context: $PROJECT_PATH/dj_app/
-            dockerfile: ../docker/local/Dockerfile-Django-uwsgi
+            context: $PROJECT_PATH
+            dockerfile: ./docker/local/Dockerfile-Django-uwsgi
         command: uwsgi --socket 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
 #        command: uwsgi --http 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
         container_name: DjangoUWSGIwStat
@@ -39,7 +39,6 @@ services:
             DJ_DEBUG: 1
         depends_on:
             - postgre
-#            - redis
 
     nginx:
         image: nginx:1
