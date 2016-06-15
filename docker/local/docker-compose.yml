@@ -9,7 +9,7 @@ services:
             - "5432:5432"
         network_mode: "host"
         volumes:
-            - $API_PROJECT_PATH/docker/data/postgresql:/var/lib/postgresql/data
+            - $PROJECT_PATH/docker/data/postgresql:/var/lib/postgresql/data
         environment:
             POSTGRES_PASSWORD: $MAIN_DB_PASSWORD
             POSTGRES_USER: $MAIN_DB_USERNAME
@@ -18,7 +18,7 @@ services:
 
     python:
         build:
-            context: $API_PROJECT_PATH/dj_app/
+            context: $PROJECT_PATH/dj_app/
             dockerfile: ../docker/local/Dockerfile-Django-uwsgi
         command: uwsgi --socket 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
 #        command: uwsgi --http 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
@@ -28,7 +28,7 @@ services:
             - "9191:9191"
         network_mode: "host"
         volumes:
-            - $API_PROJECT_PATH/dj_app/:/dj_app
+            - $PROJECT_PATH/dj_app/:/dj_app
         environment:
             DJANGO_SETTINGS_MODULE: $DJANGO_SETTINGS_MODULE
             MAIN_DB_NAME: $MAIN_DB_NAME
@@ -48,7 +48,7 @@ services:
             - "80:80"
         network_mode: "host"
         volumes:
-            - $API_PROJECT_PATH/nginx/conf.d:/etc/nginx/conf.d:ro
-            - $API_PROJECT_PATH/docker/data/log/nginx:/var/log/nginx:rw
+            - $PROJECT_PATH/nginx/conf.d:/etc/nginx/conf.d:ro
+#            - $PROJECT_PATH/docker/data/log/nginx:/var/log/nginx:rw
         depends_on:
             - python

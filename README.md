@@ -1,6 +1,6 @@
  run:
  
- CHANGE API_PROJECT_PATH in 
+ CHANGE PROJECT_PATH in 
   
     ./docker/local/.env
  
