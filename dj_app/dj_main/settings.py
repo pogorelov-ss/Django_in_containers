@@ -29,6 +29,20 @@ SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 SECRET_KEY = SECRETS['secret_key']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJ_DEBUG', False)
+if DEBUG:
+    ##################################################################
+    # uwsgi autoreload
+    ##################################################################
+    try:
+        import uwsgi
+        from uwsgidecorators import timer
+        from django.utils import autoreload
+        @timer(3)
+        def change_code_gracefull_reload(sig):
+            if autoreload.code_changed():
+                uwsgi.reload()
+    except Exception as error:
+        print('we are on localhost ', error)
 
 ALLOWED_HOSTS = []
 
