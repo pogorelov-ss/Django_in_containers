@@ -16,6 +16,23 @@
   ],
   "containerDefinitions": [
     {
+      "name": "django-app",
+      "image": "sergeidc/django_in_containers:latest",
+      "essential": true,
+      "memory": 128,
+      "mountPoints": [
+        {
+          "sourceVolume": "dj-app",
+          "containerPath": "/dj_app",
+          "readOnly": false
+        },
+        {
+          "sourceVolume": "awseb-logs-django-app",
+          "containerPath": "/var/log/sample-app"
+        }
+      ]
+    },
+    {
       "name": "nginx-proxy",
       "image": "nginx",
       "essential": true,
@@ -25,6 +42,9 @@
           "hostPort": 80,
           "containerPort": 80
         }
+      ],
+      "links": [
+        "django-app"
       ],
       "mountPoints": [
         {
