@@ -1,10 +1,12 @@
+ here I learning to run Django app in containers in a right way :)
+ 
  run:
  
  CHANGE PROJECT_PATH in 
   
-    ./docker/local/.env
+    .env file
  
- ```( cd docker/local && exec docker-compose up )```
+ ```docker-compose up```
  
  ```docker exec -i -t Django /bin/bash```
  
