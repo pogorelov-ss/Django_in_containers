@@ -25,10 +25,6 @@
           "sourceVolume": "dj-app",
           "containerPath": "/dj_app",
           "readOnly": false
-        },
-        {
-          "sourceVolume": "awseb-logs-django-app",
-          "containerPath": "/var/log/sample-app"
         }
       ]
     },
