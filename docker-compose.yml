@@ -16,18 +16,18 @@ services:
             POSTGRES_DB: $MAIN_DB_NAME
 #            POSTGRES_INITDB_ARGS:
 
-    python:
+    django-app:
 #        image: sergeidc/django_in_containers:latest
         build:
             context: .
             dockerfile: ./Dockerfile
 #        command: uwsgi --socket 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --master --processes 4 --threads 2 --stats 127.0.0.1:9191
 #        command: uwsgi --http 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
-        container_name: DjangoUWSGIwStat
+        container_name: django-app-c
         ports:
             - "8000:8000"
             - "9191:9191"
-        network_mode: "host"
+#        network_mode: "host"
         volumes:
             - $PROJECT_PATH/dj_app/:/dj_app
         environment:
@@ -38,7 +38,7 @@ services:
             MAIN_DB_HOST: $MAIN_DB_HOST
             MAIN_DB_PORT: $MAIN_DB_PORT
             DJ_DEBUG: 1
-        depends_on:
+        links:
             - postgre
 
     nginx:
@@ -46,9 +46,9 @@ services:
         container_name: Nginx
         ports:
             - "80:80"
-        network_mode: "host"
+#        network_mode: "host"
         volumes:
             - $PROJECT_PATH/nginx/conf.d:/etc/nginx/conf.d:ro
 #            - $PROJECT_PATH/docker/data/log/nginx:/var/log/nginx:rw
-        depends_on:
-            - python
+        links:
+            - django-app
