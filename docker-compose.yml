@@ -21,7 +21,7 @@ services:
         build:
             context: .
             dockerfile: ./Dockerfile
-        command: uwsgi --socket 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+#        command: uwsgi --socket 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --master --processes 4 --threads 2 --stats 127.0.0.1:9191
 #        command: uwsgi --http 127.0.0.1:8000 --wsgi-file dj_main/wsgi.py --memory-report --static-map /static=collect/static --master --processes 4 --threads 2 --stats 127.0.0.1:9191
         container_name: DjangoUWSGIwStat
         ports:
