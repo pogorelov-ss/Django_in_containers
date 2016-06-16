@@ -26,9 +26,6 @@
           "containerPort": 80
         }
       ],
-      "links": [
-        "php-app"
-      ],
       "mountPoints": [
         {
           "sourceVolume": "awseb-logs-nginx-proxy",
