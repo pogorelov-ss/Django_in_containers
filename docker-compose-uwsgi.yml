@@ -18,9 +18,6 @@ services:
         build:
             context: .
             dockerfile: ./Dockerfile
-        container_name: django-app-http
-        # entrypoint: /docker-entrypoint.sh
-        command: runserver
         links:
             - postgre
             - redis
@@ -32,9 +29,5 @@ services:
         extends:
             file: docker/common.yml
             service: proxy
-        container_name: nginx-http
-        volumes:
-            - ./nginx/conf.d.http:/etc/nginx/conf.d:ro
-        # network_mode: "host"
         links:
             - django-app

@@ -5,7 +5,9 @@ db.sqlite3
 *.pyc
 dj_app/secrets.json
 docker/data/*
+.tags
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+*/dj_main/collect/*

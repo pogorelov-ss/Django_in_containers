@@ -19,7 +19,7 @@
       "name": "django-app",
       "image": "sergeidc/django_in_containers:latest",
       "essential": true,
-      "memory": 128,
+      "memory": 256,
       "mountPoints": [
         {
           "sourceVolume": "dj-app",

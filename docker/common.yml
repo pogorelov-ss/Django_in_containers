@@ -1,0 +1,53 @@
+version: '2'
+
+services:
+    cache:
+        image: redis
+        container_name: Redis-Dec
+        ports:
+            - "6379:6379"
+        # environment:
+        #     X: x
+
+    db:
+        image: postgres:latest
+        container_name: Postgre
+        ports:
+            - "5432:5432"
+#        network_mode: "host"
+        volumes:
+            - ./data/postgresql:/var/lib/postgresql/data
+        environment:
+            POSTGRES_PASSWORD: root
+            POSTGRES_USER: pass
+            POSTGRES_DB: test_db
+
+    app:
+        image: sergeidc/django_in_containers:latest
+        container_name: django-app-uwsgi
+        ports:
+            - "8000:8000"
+            - "9191:9191"
+        volumes:
+            - ../dj_app/:/dj_app
+        environment:
+            DJANGO_SETTINGS_MODULE: dj_main.settings
+            RDS_DB_NAME: test_db
+            RDS_USERNAME: root
+            RDS_PASSWORD: pass
+            RDS_HOSTNAME: postgre
+            RDS_PORT: 5432
+            ALLOWED_HOST: localhost
+            DJ_DEBUG: 1
+            CACHE_HOST: redis
+
+    proxy:
+        image: nginx:1
+        container_name: nginx-uwsgi
+        ports:
+            - "80:80"
+        volumes:
+            - ../nginx/conf.d:/etc/nginx/conf.d:ro
+#            - $PROJECT_PATH/docker/data/log/nginx:/var/log/nginx:rw
+        # environment:
+        #     X: x

@@ -11,15 +11,18 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-DJ_PROJECT_DIR = os.path.dirname(__file__)
-BASE_DIR = os.path.dirname(DJ_PROJECT_DIR)
+PROJECT_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(PROJECT_DIR)
 # USER_HOME_DIR = os.path.dirname(BASE_DIR)
 DATA_DIR = os.environ.get('INSTANCE_DATA_DIR', BASE_DIR)
 
 import sys
+
 sys.path.append(os.path.join(BASE_DIR, 'libs'))
 import secrets
+
 SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 
 # Quick-start development settings - unsuitable for production
@@ -29,6 +32,7 @@ SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 SECRET_KEY = SECRETS['secret_key']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJ_DEBUG', False)
+
 if DEBUG:
     ##################################################################
     # uwsgi autoreload
@@ -37,6 +41,8 @@ if DEBUG:
         import uwsgi
         from uwsgidecorators import timer
         from django.utils import autoreload
+
+
         @timer(3)
         def change_code_gracefull_reload(sig):
             if autoreload.code_changed():
@@ -44,8 +50,7 @@ if DEBUG:
     except Exception as error:
         print('we are on localhost ', error)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST')]
 
 # Application definition
 
@@ -89,7 +94,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dj_main.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
@@ -104,7 +108,17 @@ DATABASES = {
     }
 }
 
+##################################################################
+# CACHE settings inmemory
+##################################################################
+CACHE_HOST = os.environ.get('CACHE_HOST', 'redis')
 
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': '{}:6379'.format(CACHE_HOST),
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -123,7 +137,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -137,8 +150,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'collect/static/')
