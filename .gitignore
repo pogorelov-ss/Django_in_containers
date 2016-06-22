@@ -10,4 +10,4 @@ docker/data/*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-*/dj_main/collect/*
+dj_app/collect/*
