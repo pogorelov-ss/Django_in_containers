@@ -1,0 +1,12 @@
+.idea
+.ipynb_checkpoints/
+*.ipynb
+db.sqlite3
+*.pyc
+docker/data/*
+.tags
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+dj_app/collect/*
