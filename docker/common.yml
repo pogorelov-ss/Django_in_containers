@@ -48,6 +48,7 @@ services:
             - "80:80"
         volumes:
             - ../nginx/conf.d:/etc/nginx/conf.d:ro
+            - ../dj_app/collect:/var/www/collect:ro
 #            - $PROJECT_PATH/docker/data/log/nginx:/var/log/nginx:rw
         # environment:
         #     X: x

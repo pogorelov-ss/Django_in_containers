@@ -8,6 +8,12 @@
       }
     },
     {
+      "name": "dj-app-static",
+      "host": {
+        "sourcePath": "/var/app/current/dj_app/collect"
+      }
+    },
+    {
       "name": "nginx-proxy-conf",
       "host": {
         "sourcePath": "/var/app/current/nginx/conf.d"
@@ -50,6 +56,11 @@
         {
           "sourceVolume": "nginx-proxy-conf",
           "containerPath": "/etc/nginx/conf.d",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "dj-app-static",
+          "containerPath": "/var/www/collect",
           "readOnly": true
         }
       ]
