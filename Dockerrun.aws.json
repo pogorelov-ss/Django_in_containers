@@ -61,7 +61,7 @@
         {
           "sourceVolume": "dj-app-static",
           "containerPath": "/var/www/collect",
-          "readOnly": true
+          "readOnly": false
         }
       ]
     }
