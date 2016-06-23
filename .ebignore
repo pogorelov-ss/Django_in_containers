@@ -1,3 +1,4 @@
+.git/*
 .idea
 .ipynb_checkpoints/
 *.ipynb
@@ -9,4 +10,5 @@ docker/data/*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+# static files
 dj_app/collect/*
