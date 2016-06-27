@@ -11,6 +11,7 @@ psycopg2>=2.5.4
 Celery >=3.1.10
 
 djangorestframework
+drf-extensions
 # djangorestframework-bulk
 
 Pillow==2.9.0
@@ -22,3 +23,5 @@ raven
 uwsgi
 
 redis
+django-redis
+
