@@ -6,6 +6,7 @@ django-mptt
 django-mptt-admin
 django-model-utils
 django-cors-headers
+django-filter
 
 ### PostgresSQL driver
 psycopg2>=2.5.4
