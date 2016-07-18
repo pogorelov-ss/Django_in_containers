@@ -28,3 +28,6 @@ uwsgi
 redis
 django-redis
 
+# extra tools
+pip
+django_extensions
